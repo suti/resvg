@@ -160,7 +160,7 @@ impl fmt::Debug for Paint {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             Paint::Color(c) => write!(f, "Color({})", c),
-            Paint::Link(ref id)  => write!(f, "Link({})", id),
+            Paint::Link(ref id) => write!(f, "Link({})", id),
         }
     }
 }
@@ -204,7 +204,8 @@ impl Default for Fill {
 pub struct Stroke {
     pub paint: Paint,
     pub dasharray: Option<Vec<f64>>,
-    pub dashoffset: f32, // f32 and not f64 to reduce the struct size.
+    pub dashoffset: f32,
+    // f32 and not f64 to reduce the struct size.
     pub miterlimit: StrokeMiterlimit,
     pub opacity: Opacity,
     pub width: StrokeWidth,
@@ -291,6 +292,8 @@ pub enum ImageKind {
     PNG(Vec<u8>),
     /// A preprocessed SVG tree. Can be rendered as is.
     SVG(crate::Tree),
+    /// A raw RGBA data.
+    RGBA((u32, u32, Vec<u8>)),
 }
 
 impl fmt::Debug for ImageKind {
@@ -299,6 +302,7 @@ impl fmt::Debug for ImageKind {
             ImageKind::JPEG(_) => f.write_str("ImageKind::JPEG(..)"),
             ImageKind::PNG(_) => f.write_str("ImageKind::PNG(..)"),
             ImageKind::SVG(_) => f.write_str("ImageKind::SVG(..)"),
+            ImageKind::RGBA(_) => f.write_str("ImageKind::RGBA(..)"),
         }
     }
 }
@@ -397,8 +401,8 @@ impl ConvolveMatrix {
     /// - `target_y` >= `rows`
     pub fn new(target_x: u32, target_y: u32, columns: u32, rows: u32, data: Vec<f64>) -> Option<Self> {
         if (columns * rows) as usize != data.len()
-           || target_x >= columns
-           || target_y >= rows
+            || target_x >= columns
+            || target_y >= rows
         {
             return None;
         }
@@ -477,9 +481,9 @@ impl ShapeRendering {
     /// Checks if anti-aliasing should be enabled.
     pub fn use_shape_antialiasing(self) -> bool {
         match self {
-            ShapeRendering::OptimizeSpeed         => false,
-            ShapeRendering::CrispEdges            => false,
-            ShapeRendering::GeometricPrecision    => true,
+            ShapeRendering::OptimizeSpeed => false,
+            ShapeRendering::CrispEdges => false,
+            ShapeRendering::GeometricPrecision => true,
         }
     }
 }

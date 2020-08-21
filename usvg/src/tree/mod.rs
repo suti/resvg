@@ -34,8 +34,10 @@ pub type Node = rctree::Node<NodeKind>;
 #[allow(missing_debug_implementations)]
 #[derive(Clone)]
 pub struct Tree {
-    root: Node,
+    pub root: Node,
 }
+
+unsafe impl Send for Tree {}
 
 impl Tree {
     /// Parses `Tree` from the SVG data.
@@ -265,7 +267,7 @@ impl NodeExt for Node {
         }
 
         if !filter.children.iter().any(|c| c.kind.has_input(&FilterInput::BackgroundImage)) &&
-           !filter.children.iter().any(|c| c.kind.has_input(&FilterInput::BackgroundAlpha))
+            !filter.children.iter().any(|c| c.kind.has_input(&FilterInput::BackgroundAlpha))
         {
             return None;
         }

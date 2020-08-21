@@ -39,6 +39,14 @@ pub fn draw_kind(
         usvg::ImageKind::SVG(ref subtree) => {
             draw_svg(subtree, view_box, canvas);
         }
+        usvg::ImageKind::RGBA(ref data) => {
+            let (width, height, data) = data;
+            let image = Image {
+                data: ImageData::RGBA(data.clone()),
+                size: ScreenSize::new(*width, *height).unwrap(),
+            };
+            draw_raster(&image, view_box, rendering_mode, canvas)
+        }
     }
 }
 
@@ -186,7 +194,7 @@ fn read_png(data: &[u8]) -> Option<Image> {
         }
         png::ColorType::Indexed => {
             warn!("Indexed PNG is not supported.");
-            return None
+            return None;
         }
     };
 

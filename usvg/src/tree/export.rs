@@ -674,6 +674,9 @@ impl XmlWriterExt for XmlWriter {
                 svg_string = tree.to_string(XmlOptions::default());
                 ("svg+xml", svg_string.as_bytes())
             }
+            ImageKind::RGBA(ref data) => {
+                ("rgba", data.2.as_slice())
+            }
         };
 
         self.write_attribute_raw("xlink:href", |buf| {
