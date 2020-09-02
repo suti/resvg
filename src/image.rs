@@ -39,6 +39,14 @@ pub fn draw_kind(
         usvg::ImageKind::SVG(ref subtree) => {
             draw_svg(subtree, view_box, canvas);
         }
+        usvg::ImageKind::RGB(ref data) => {
+            let (width, height, data) = data;
+            let image = Image {
+                data: ImageData::RGB(data.clone()),
+                size: ScreenSize::new(*width, *height).unwrap(),
+            };
+            draw_raster(&image, view_box, rendering_mode, canvas)
+        }
         usvg::ImageKind::RGBA(ref data) => {
             let (width, height, data) = data;
             let image = Image {

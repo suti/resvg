@@ -677,6 +677,9 @@ impl XmlWriterExt for XmlWriter {
             ImageKind::RGBA(ref data) => {
                 ("rgba", data.2.as_slice())
             }
+            ImageKind::RGB(ref data) => {
+                ("rgb", data.2.as_slice())
+            }
         };
 
         self.write_attribute_raw("xlink:href", |buf| {

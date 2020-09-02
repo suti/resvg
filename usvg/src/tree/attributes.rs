@@ -292,6 +292,8 @@ pub enum ImageKind {
     PNG(Vec<u8>),
     /// A preprocessed SVG tree. Can be rendered as is.
     SVG(crate::Tree),
+    /// A raw RGB data.
+    RGB((u32, u32, Vec<u8>)),
     /// A raw RGBA data.
     RGBA((u32, u32, Vec<u8>)),
 }
@@ -303,6 +305,7 @@ impl fmt::Debug for ImageKind {
             ImageKind::PNG(_) => f.write_str("ImageKind::PNG(..)"),
             ImageKind::SVG(_) => f.write_str("ImageKind::SVG(..)"),
             ImageKind::RGBA(_) => f.write_str("ImageKind::RGBA(..)"),
+            ImageKind::RGB(_) => f.write_str("ImageKind::RGB(..)"),
         }
     }
 }
